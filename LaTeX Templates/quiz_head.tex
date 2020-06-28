@@ -1,0 +1,170 @@
+\documentclass[10pt]{article}
+\usepackage{amsmath,amssymb,hyperref,color,graphicx,fancyhdr,geometry,comment,pdftexcmds}
+
+% The following script will result in the creation of 2 documents:
+% QuizN_M_Student.pdf and QuizN_M_Key.pdf, where N = \QuizNumber and
+% M = \SectionNumber. To execute it, you have to enable pdflatex to
+% "escape to shell" by compiling with the following command:
+%   pdflatex --shell-escape quiz_body.tex
+\makeatletter
+\ifcase\pdf@shellescape
+  \gdef\condition{0}\or
+  \ifx\condition\undefined
+    \immediate\write18{
+    pdflatex --jobname=\jobname
+    "\gdef\string\condition{0}
+    \string\input\space\jobname"}
+    \immediate\write18{
+    pdflatex --jobname=\jobname_Key
+    "\gdef\string\condition{1}
+    \string\input\space\jobname"}
+    \expandafter\stop
+  \fi\or
+  \gdef\condition{0}\fi
+\makeatother
+
+\ifcase\condition
+  % \condition = 0, student version
+  \excludecomment{key}
+  \or % \condition = 1, key version
+  \includecomment{key}
+\fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\headheight}{15.2pt}
+\pagestyle{fancy}
+
+\lhead{\CourseNumber:\SectionNumber}
+\chead{\textit{\CourseTitle}}
+\rhead{\QuizDate}
+
+\begin{key}
+\lfoot{\textbf{KEY:} \Key}
+\end{key}
+
+\def\vs{\vspace{.85\baselineskip}}
+\def\svs{\vspace{.5\baselineskip}}
+\def\nvs{\vspace{-.85\baselineskip}}
+\def\nsvs{\vspace{-.5\baselineskip}}
+\def\vf{\vfill}
+\def\ds{\displaystyle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% FONTS, MICROTYPE, AND SPACING
+%https://tex.stackexchange.com/questions/82001/microtype-settings-for-dummies
+%http://www.khirevich.com/latex/microtype/
+\usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,spacing=true, factor=1100,stretch=10,shrink=10]{microtype}
+\usepackage[T1]{fontenc}
+
+%Prevents odd spacing message
+\microtypecontext{spacing=nonfrench}
+
+\SetProtrusion{encoding={*},family={*}, series={*},size={6,7}}
+              {1={ ,750},2={ ,500},3={ ,500},4={ ,500},5={ ,500},
+               6={ ,500},7={ ,600},8={ ,500},9={ ,500},0={ ,500}}
+
+\SetExtraKerning[unit=space]
+    {encoding={*}, family={*}, series={*}, size={footnotesize,small,normalsize}}
+    {\textendash={400,400}, % en-dash, add more space around it
+     "28={ ,150}, % left bracket, add space from right
+     "29={150, }, % right bracket, add space from left
+     \textquotedblleft={ ,150}, % left quotation mark, space from right
+     \textquotedblright={150, }} % right quotation mark, space from left
+
+\SetExtraKerning[unit=space]
+   {encoding={*}, family={*}, series={b}, size={large,Large}}
+   {1={-200,-200},
+    \textendash={400,400}}
+\SetTracking{encoding={*}, shape=sc}{40}
+
+%Font Families -- https://math.ucsd.edu/~msharpe/RcntFnts.pdf
+\usepackage{textcomp}
+\usepackage{charter}
+\usepackage[sb]{libertine}
+\usepackage[varqu,varl]{zi4}% inconsolata
+\usepackage[libertine,bigdelims,vvarbb,scaled=1.05]{newtxmath} % bb from STIX
+%\usepackage[cal=boondoxo]{mathalfa} % mathcal
+%\useosf % osf for text, not math
+\usepackage[supstfm=libertinesups,%
+supscaled=1.2,%
+raised=-.13em]{superiors}
+
+% Allows fonts to be rescaled arbitrarily without error messages
+\usepackage{type1ec}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% COUNTERS
+
+% problem counter
+\newcounter{probcounter}
+\setcounter{probcounter}{0}
+
+% subproblem counter
+\newcounter{subprobcounter}
+\setcounter{subprobcounter}{0}
+\renewcommand{\thesubprobcounter}{\alph{subprobcounter}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PROBLEM FORMATTING
+
+% problem environment
+\newcommand{\prob}[1]
+	{\phantom{x}\hspace{-.25in}
+	\setcounter{subprobcounter}{0}
+	\refstepcounter{probcounter}
+	{\large \bf \theprobcounter.} $\;$
+	\parbox[t]{5.65in}{#1} \\[1pc]}
+
+% subproblem environment
+\newcommand{\subprob}[1]
+	{\refstepcounter{subprobcounter}
+	\hspace{.25in}
+	{\bf \Roman{subprobcounter})} $\;$
+	\parbox[t]{5.35in}{#1}
+	\svs \\}
+
+% unlabeled subitem environment
+\newcommand{\thing}[1]
+	{\hspace{.25in}
+	\parbox[t]{5.35in}{#1}
+	\vs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% MC formatting for 1 option per line
+
+\newcommand{\MCone}[4]
+	{\phantom{x}\hspace{.07in}
+	\begin{tabular}{p{5.25in}}
+		{\bf A)}\, #1\\
+		{\bf B)}\, #2\\
+		{\bf C)}\, #3\\
+		{\bf D)}\, #4
+	\end{tabular}
+	\vs\svs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% MC formatting for 2 options per line
+
+\newcommand{\MCtwo}[4]
+	{\phantom{x}\hspace{.07in}
+	\begin{tabular}{p{2.57in}p{2.57in}}
+		{\bf A)}\, #1
+		&{\bf B)}\, #2 \\*[1pc]
+		{\bf C)}\, #3
+		&{\bf D)}\, #4
+	\end{tabular}
+	\vs\svs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% MC formatting for 4 options per line
+
+\newcommand{\MCfour}[4]
+	{\phantom{x}\hspace{.07in}
+	\begin{tabular}{p{1.2in}p{1.2in}p{1.2in}p{1.2in}}
+	 	{\bf A)}\, #1
+		&{\bf B)}\, #2
+		&{\bf C)}\, #3
+		&{\bf D)}\, #4
+	\end{tabular}
+	\svs}
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

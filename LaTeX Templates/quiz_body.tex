@@ -1,0 +1,61 @@
+% This file contains all the text that will be displayed on the quiz.
+% It must be saved in the same directory as quiz--head.tex, which
+% contains all the formatting information. These files are modified
+% versions of Dr. Laura Taalman's template which can be found here:
+% https://mathgrrl.com/hacktastic/2019/01/mastery-based-grading/
+
+% INSTRUCTIONS: Modify the course and quiz information as needed, add
+% questions, save and compile.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% COURSE INFO %
+\def\CourseTitle{Calculus and Matrix Algebra for Business}
+\def\CourseNumber{MATH:1380}
+\def\SectionNumber{0083}
+%0431 3:30 - 4:20 N129 LC
+%0083 5:00 - 5:50 248 JH
+
+% QUIZ INFO %
+\def\QuizNumber{1}
+\def\SectionName{Linear Functions}
+\def\QuizDate{9/5/19}
+
+% KEY %
+% Note: will only appear on the Key version, which requires special instructions
+% to create. See the instructions at the end of quiz_head.tex.
+\def\Key{ABCD}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{quiz_head}
+\begin{document}
+
+{\Large \bf Quiz \QuizNumber}
+\hfill {\bf Name:} \underline{\hspace{2in}}
+\vs
+
+{\bf \SectionName}
+\vs
+
+{\em You may not use books, notes, calculators, phones, or any outside resources.}
+\vs
+
+\prob{Question 1 (Four answers per line)}
+\MCfour{Answer 1}{Answer 2}{Answer 3}{Answer 4}
+
+\prob{Question 2 (Two answers per line)}
+\MCtwo{Answer 1}{Answer 2}{Answer 3}{Answer 4}
+
+\prob{Question 3 (One answer per line)}
+\MCone{Answer 1}{Answer 2}{Answer 3}{Answer 4}
+
+\prob{Question 4 (with subproblems). Which of these are true?}
+\subprob{$e^{i\pi} + 1 = 0$}
+\subprob{Subproblem 2}
+\subprob{Subproblem 3}
+\MCtwo{I only}{I and III only}{I, II, and III}{None}
+
+\begin{key}
+\lfoot{\textbf{KEY:} \Key}
+\end{key}
+\end{document}
